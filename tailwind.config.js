@@ -1,6 +1,8 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
+    mode: 'jit',
+
     purge: [
         // './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
@@ -18,6 +20,4 @@ module.exports = {
     variants: {
         opacity: ['responsive', 'hover', 'focus', 'disabled'],
     },
-
-    plugins: [require('@tailwindcss/ui')],
 };
