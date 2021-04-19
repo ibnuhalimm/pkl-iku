@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
-    public function test_user_can_view_login_form()
+    public function test_can_view_login_form()
     {
         $response = $this->get(route('login'));
 
@@ -18,7 +18,7 @@ class LoginTest extends TestCase
     }
 
 
-    public function test_user_can_login_using_username_password()
+    public function test_can_login_using_username_password()
     {
         $user = User::factory()->create();
 
@@ -32,7 +32,7 @@ class LoginTest extends TestCase
     }
 
 
-    public function test_user_can_login_using_email_password()
+    public function test_can_login_using_email_password()
     {
         $user = User::factory()->create();
 
@@ -46,7 +46,7 @@ class LoginTest extends TestCase
     }
 
 
-    public function test_user_cannot_login_using_invalid_credentials()
+    public function test_cannot_login_using_invalid_credentials()
     {
         $user = User::factory()->create();
 
@@ -60,7 +60,7 @@ class LoginTest extends TestCase
     }
 
 
-    public function test_user_receive_validation_error_if_not_fill_username()
+    public function test_receive_validation_error_if_username_not_filled()
     {
         $response = $this->post(route('login'), [
             'username' => '',
@@ -72,7 +72,7 @@ class LoginTest extends TestCase
     }
 
 
-    public function test_user_receive_validation_error_if_not_fill_password()
+    public function test_receive_validation_error_if_password_not_filled()
     {
         $response = $this->post(route('login'), [
             'username' => 'the-username-here',
