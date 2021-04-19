@@ -1,0 +1,47 @@
+version: '3'
+services:
+  webserver:
+    image: nginx:alpine
+    container_name: pkl_iku_webserver
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d/
+    ports:
+      - '8081:80'
+
+  app:
+    container_name: pkl_iku_app
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www
+
+  db:
+    image: mariadb:10.3
+    container_name: pkl_iku_db
+    ports:
+      - '33061:3306'
+    volumes:
+      - ./docker/dbdata/mysql:/var/lib/database
+    environment:
+      MYSQL_DATABASE: pkl_iku
+      MYSQL_ROOT_PASSWORD: toor
+
+  dbtest:
+    image: mariadb:10.3
+    container_name: pkl_iku_dbtest
+    ports:
+      - '33062:3306'
+    tmpfs:
+      - /var/lib/mysql
+    environment:
+      MYSQL_DATABASE: pkl_iku_test
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+
+  redis:
+    image: redis
+    container_name: pkl_iku_redis
+    volumes:
+      - ./docker/dbdata/redis:/data
