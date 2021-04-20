@@ -1,7 +1,7 @@
 @extends('layout.auth')
 
 @section('title')
-    Login
+    Forgot Password
 @endsection
 
 @section('content')
@@ -12,7 +12,7 @@
             </div>
             <div class="text-center mt-3 mb-6">
                 <h1 class="text-2xl font-bold">
-                    {{ __('Login') }}
+                    {{ __('Forgot Password') }}
                 </h1>
             </div>
 
@@ -29,32 +29,25 @@
             @endif
 
             <div class="mb-5">
-                <form action="{{ route('login') }}" method="post">
+                <form action="{{ route('password.email') }}" method="post">
                     {{ csrf_field() }}
                     <x-form-group>
-                        <x-form-label for="__usernameLogin" isRequired="true">
-                            Username
+                        <x-form-label for="__emailForgotPassword" isRequired="true">
+                            Email
                         </x-form-label>
-                        <x-input-text type="text" name="username" id="__usernameLogin" autocomplete="off" autofocus />
-                    </x-form-group>
-                    <x-form-group>
-                        <x-form-label for="__passwordLogin" isRequired="true">
-                            Password
-                        </x-form-label>
-                        <x-input-text type="password" name="password" id="__passwordLogin" autocomplete="off" />
+                        <x-input-text type="email" name="email" id="__emailForgotPassword" autocomplete="off" autofocus />
                     </x-form-group>
                     <div>
                         <x-button type="submit" color="primary">
-                            {{ __('Login') }}
+                            {{ __('Send Reset Link') }}
                         </x-button>
                     </div>
                 </form>
             </div>
             <div>
                 <p class="text-center">
-                    {{ __('Forgot Password') }}?
-                    <x-link href="{{ route('password.request') }}">
-                        {{ __('Reset here') }}
+                    <x-link href="{{ route('login') }}">
+                        {{ __('Back to Login') }}
                     </x-link>
                 </p>
             </div>
