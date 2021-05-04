@@ -37,6 +37,18 @@ services:
             - sail
         healthcheck:
           test: ["CMD", "mysqladmin", "ping"]
+    mariadb_test:
+        image: 'mariadb:10'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_DATABASE: '${DB_DATABASE}_test'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        volumes:
+            - 'sailmariadb_test:/var/lib/mysql'
+        networks:
+            - sail
     redis:
         image: 'redis:alpine'
         ports:
@@ -65,6 +77,8 @@ networks:
         driver: bridge
 volumes:
     sailmariadb:
+        driver: local
+    sailmariadb_test:
         driver: local
     sailredis:
         driver: local
