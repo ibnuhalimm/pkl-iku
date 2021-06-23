@@ -20,5 +20,8 @@
         "resolve-url-loader": "^3.1.0",
         "tailwindcss": "^2.2.2",
         "vue-template-compiler": "^2.6.12"
+    },
+    "dependencies": {
+        "alpinejs": "^3.1.0"
     }
 }
