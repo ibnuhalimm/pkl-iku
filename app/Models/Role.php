@@ -25,6 +25,15 @@ class Role extends Model
     ];
 
     /**
+     * Append custom attributes
+     *
+     * @var array
+     */
+    protected $appends = [
+        'slug'
+    ];
+
+    /**
      * Has many relationship to `users` table
      *
      * @return HasMany
