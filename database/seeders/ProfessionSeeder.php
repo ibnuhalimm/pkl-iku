@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Profession;
+use DateTime;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ProfessionSeeder extends Seeder
 {
