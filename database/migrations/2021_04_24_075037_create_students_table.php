@@ -27,7 +27,7 @@ class CreateStudentsTable extends Migration
             $table->mediumInteger('year_grad')->nullable();
             $table->string('origin_school', 50)->nullable();
             $table->string('origin_mayor', 50)->nullable();
-            $table->mediumInteger('origin_year_grad', 50)->nullable();
+            $table->mediumInteger('origin_year_grad')->nullable();
             $table->float('origin_score')->nullable();
             $table->softDeletes();
             $table->timestamps();
