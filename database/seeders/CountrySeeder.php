@@ -15,7 +15,7 @@ class CountrySeeder extends Seeder
      */
     public function run()
     {
-        $csvFile = storage_path('app/private/seed') . '/country.csv';
+        $csvFile = storage_path('framework/seeders') . '/country.csv';
 
         Excel::import(new CountryImport(), $csvFile);
     }
