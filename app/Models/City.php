@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class City extends Model
 {
     use HasFactory;
+
+    /**
+     * Define table name
+     *
+     * @var string
+     */
+    protected $table = 'indonesia_cities';
 }
