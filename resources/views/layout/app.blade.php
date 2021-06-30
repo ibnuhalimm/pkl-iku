@@ -26,7 +26,7 @@
                 <div class="absolute w-full h-full bg-gray-900 bg-opacity-50 z-40"></div>
             </div>
             <div class="transform -translate-x-full xl:translate-x-0 fixed top-0 left-0 xl:mt-16 w-[63%] sm:w-1/3 lg:w-1/4 xl:w-64 h-full bg-white ease-in-out transition-all duration-300 z-30 border lg:border-0 border-solid border-t-0 border-r-0 border-b-0 border-gray-100" id="__sidebarMenu">
-                <div class="w-full h-full flex flex-col overflow-y-auto">
+                <div class="w-full h-full flex flex-col overflow-y-auto pb-10">
                     <div class="block xl:hidden w-1/3 mx-auto py-4 mb-5">
                         <a href="{{ route('home') }}" class="block w-full">
                             <img src="{{ asset('img/logo.png?_=' . rand()) }}" alt="{{ config('app.name') }}" class="w-full h-auto">
@@ -120,11 +120,12 @@
                             </x-sidebar.nav-item>
                             <x-sidebar.nav-item :active="false" x-data="{ subnavOpen: false }">
                                 <x-sidebar.nav-link href="#" :active="false" x-on:click="subnavOpen = !subnavOpen">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 h-4 bi bi-box-seam" viewBox="0 0 16 16">
-                                        <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 h-4 bi bi-bookmark-star" viewBox="0 0 16 16">
+                                        <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098L7.84 4.1z"/>
+                                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
                                     </svg>
                                     <span class="ml-3">
-                                        Master Data
+                                        Kampus
                                     </span>
                                     <span class="absolute left-auto right-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-3 h-3 bi bi-caret-down" viewBox="0 0 16 16">
