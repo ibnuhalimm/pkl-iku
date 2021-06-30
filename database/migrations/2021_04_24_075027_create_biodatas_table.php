@@ -25,10 +25,10 @@ class CreateBiodatasTable extends Migration
             $table->integer('religion_id')->default(0);
             $table->tinyInteger('marital_status')->default(0);
             $table->text('address')->nullable();
-            $table->string('village', 50)->nullable();
-            $table->string('district', 50)->nullable();
-            $table->string('city', 50)->nullable();
-            $table->integer('province_id')->default(0);
+            $table->char('province_id', 2)->nullable();
+            $table->char('city_id', 4)->nullable();
+            $table->char('district_id', 7)->nullable();
+            $table->char('village_id', 10)->nullable();
             $table->string('postcode')->nullable();
             $table->char('citizen')->nullable()->comment('WNI / WNA');
             $table->char('country_code')->nullable();
