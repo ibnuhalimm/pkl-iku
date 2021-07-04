@@ -165,7 +165,7 @@
     <x-modal.modal-sm id="__modalDeleteStudyProgram" class="hidden">
         <x-modal.header>
             <x-modal.title>
-                {{ __('Edit Data') }}
+                {{ __('Hapus Data') }}
             </x-modal.title>
         </x-modal.header>
         <x-modal.body>
