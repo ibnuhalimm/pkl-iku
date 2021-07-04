@@ -15,3 +15,11 @@ sidebarBackdrop.addEventListener('click', () => {
     sidebarMenu.classList.remove('translate-x-0');
     sidebarMenu.classList.add('-translate-x-full');
 });
+
+
+$('.nav-link').on('click', function(event) {
+    if ($(this).attr('href') == '#') {
+        event.preventDefault();
+        return false;
+    }
+});
