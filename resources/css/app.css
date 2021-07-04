@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 body {
+    @apply overflow-y-scroll;
     @apply text-iku-dark text-sm;
 }
 
 body.modal-open {
-    @apply overflow-y-hidden;
+    @apply overflow-y-scroll;
 }
 
 
