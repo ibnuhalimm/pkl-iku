@@ -7,6 +7,7 @@
 
 @push('top_css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
 @endpush
 
 
@@ -129,6 +130,7 @@
 
 @push('bottom_js')
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="{{ asset('js/datatable.config.js') }}"></script>
 
     <script>
@@ -138,6 +140,7 @@
         var facultyTable = $('#faculty-table').DataTable({
             serverSide: true,
             processing: true,
+            responsive: true,
             ajax: {
                 type: 'GET',
                 url: datatableUrl
