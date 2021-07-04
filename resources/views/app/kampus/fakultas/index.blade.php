@@ -125,6 +125,39 @@
         </x-modal.body>
     </x-modal.modal-default>
 
+
+    <x-modal.modal-sm id="__modalDeleteFaculty" class="hidden">
+        <x-modal.header>
+            <x-modal.title>
+                {{ __('Edit Data') }}
+            </x-modal.title>
+        </x-modal.header>
+        <x-modal.body>
+
+            <x-alert-simple color="red" id="__alertErrorModalDeleteFaculty" class="alert hidden"></x-alert-simple>
+
+            <form action="{{ route('kampus.fakultas.destroy') }}" method="post" id="__formDeleteFaculty">
+                @csrf
+
+                <input type="hidden" name="id" id="__idDeleteFaculty">
+
+                <p class="mb-5 text-center">
+                    Apakah Anda yakin ingin menghapus data ini?
+                </p>
+
+                <div class="text-center">
+                    <x-button type="reset" color="gray" id="__btnCancelDeleteFaculty">
+                        {{ __('Tidak') }}
+                    </x-button>
+                    <x-button type="submit" color="red" id="__btnSubmitDeleteFaculty">
+                        {{ __('Ya, Hapus') }}
+                    </x-button>
+                </div>
+            </form>
+
+        </x-modal.body>
+    </x-modal.modal-sm>
+
 @endsection
 
 
@@ -270,7 +303,7 @@
         $('#__formEditFaculty').on('submit', function(event) {
             event.preventDefault();
 
-            const storeUrl = $(this).attr('action');
+            const updateUrl = $(this).attr('action');
             const formData = new FormData($(this)[0]);
 
             $('.alert').addClass('hidden').html(null);
@@ -278,7 +311,7 @@
             $('#__btnCancelEditFaculty').attr('disabled', true);
             $('#__btnSubmitEditFaculty').attr('disabled', true).html('Menyimpan...');
 
-            axios.post(storeUrl, formData)
+            axios.post(updateUrl, formData)
                 .then(response => {
                     let responseData = response.data;
 
@@ -319,6 +352,83 @@
 
                     $('#__btnCancelEditFaculty').attr('disabled', false);
                     $('#__btnSubmitEditFaculty').attr('disabled', false).html('Simpan Data');
+
+                });
+
+            return false;
+        });
+
+
+        const deleteFaculty = (el) => {
+            let id = el.getAttribute('data-id');
+
+            $('#__idDeleteFaculty').val(id);
+
+            $('#__modalDeleteFaculty').removeClass('hidden');
+            $('body').addClass('modal-open');
+        }
+
+
+        $('#__btnCancelDeleteFaculty').on('click', function() {
+            $('.alert').addClass('hidden').html(null);
+
+            $('#__modalDeleteFaculty').addClass('hidden');
+            $('body').removeClass('modal-open');
+        });
+
+
+        $('#__formDeleteFaculty').on('submit', function(event) {
+            event.preventDefault();
+
+            const deleteUrl = $(this).attr('action');
+            const formData = new FormData($(this)[0]);
+
+            $('.alert').addClass('hidden').html(null);
+
+            $('#__btnCancelDeleteFaculty').attr('disabled', true);
+            $('#__btnSubmitDeleteFaculty').attr('disabled', true).html('Menghapus...');
+
+            axios.post(deleteUrl, formData)
+                .then(response => {
+                    let responseData = response.data;
+
+                    $('#__modalDeleteFaculty').addClass('hidden');
+                    $('body').removeClass('modal-open');
+
+                    $('#__btnCancelDeleteFaculty').attr('disabled', false);
+                    $('#__btnSubmitDeleteFaculty').attr('disabled', false).html('Ya, Hapus');
+
+                    facultyTable.ajax.reload(null, false);
+
+                    $(this)[0].reset();
+
+                    $('#__alertSuccessTable').removeClass('hidden');
+                    $('#__alertSuccessTable').html(responseData.message);
+
+                })
+                .catch(({response}) => {
+                    let responseData = response.data;
+
+                    $('#__alertErrorModalDeleteFaculty').removeClass('hidden');
+
+                    if (response.status == 422) {
+                        let errorFields = Object.keys(responseData.errors);
+
+                        errorFields.map(field => {
+                            $('#__alertErrorModalDeleteFaculty').append(
+                                $('<div/>', {
+                                    html: responseData.errors[field][0]
+                                })
+                            );
+                        });
+
+                    } else {
+                        $('#__alertErrorModalDeleteFaculty').html(responseData.message);
+
+                    }
+
+                    $('#__btnCancelDeleteFaculty').attr('disabled', false);
+                    $('#__btnSubmitDeleteFaculty').attr('disabled', false).html('Ya, Hapus');
 
                 });
 

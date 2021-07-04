@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Kampus;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Kampus\Fakultas\DatatableRequest;
+use App\Http\Requests\Kampus\Fakultas\DeleteRequest;
 use App\Http\Requests\Kampus\Fakultas\StoreRequest;
 use App\Http\Requests\Kampus\Fakultas\UpdateRequest;
 use App\Models\Faculty;
@@ -71,12 +72,22 @@ class FakultasController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Http\Requests\Kampus\Fakultas\DeleteRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DeleteRequest $request)
     {
-        //
+        try {
+            $faculty = Faculty::where('id', $request->id)->first();
+            $faculty->delete();
+
+            return $this->apiResponse(200, 'Data berhasil dihapus');
+
+        } catch (\Throwable $th) {
+            report($th);
+
+            return $this->apiResponse(500, 'Terjadi kesalahan. ' . $th->getMessage());
+        }
     }
 
     /**
