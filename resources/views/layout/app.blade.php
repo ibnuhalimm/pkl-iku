@@ -142,14 +142,14 @@
                                         </svg>
                                     </span>
                                 </x-sidebar.nav-link>
-                                <x-sidebar.subnav-wrapper :active="request()->is('kampus*')" x-show="subnavOpen">
+                                <x-sidebar.subnav-wrapper :active="request()->is('kampus*') OR request()->is('prodi*')" x-show="subnavOpen">
                                     <x-sidebar.subnav-item>
                                         <x-sidebar.subnav-link :href="route('kampus.fakultas.index')" :active="request()->is('kampus/fakultas*')">
                                             Fakultas
                                         </x-sidebar.subnav-link>
                                     </x-sidebar.subnav-item>
                                     <x-sidebar.subnav-item>
-                                        <x-sidebar.subnav-link href="#">
+                                        <x-sidebar.subnav-link :href="route('kampus.prodi.index')" :active="request()->is('kampus/prodi*')">
                                             Program Studi
                                         </x-sidebar.subnav-link>
                                     </x-sidebar.subnav-item>

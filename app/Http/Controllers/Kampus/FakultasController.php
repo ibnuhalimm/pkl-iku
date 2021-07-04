@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Kampus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Kampus\Fakultas\DatatableRequest;
 use App\Http\Requests\Kampus\Fakultas\DeleteRequest;
+use App\Http\Requests\Kampus\Fakultas\SelectTwoRequest;
 use App\Http\Requests\Kampus\Fakultas\StoreRequest;
 use App\Http\Requests\Kampus\Fakultas\UpdateRequest;
+use App\Http\Resources\FakultasSelectTwoResource;
 use App\Models\Faculty;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -139,5 +141,41 @@ class FakultasController extends Controller
                 ->skipPaging(true)
                 ->setTotalRecords($facultiesCount)
                 ->make(true);
+    }
+
+    /**
+     * Handle select2 ajax source
+     *
+     * @param  \App\Http\Requests\Kampus\Fakultas\SelectTwoRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function selectTwo(SelectTwoRequest $request)
+    {
+        $page = $request->get('page', 1);
+        $search = $request->get('search', 0);
+
+        $limit = 20;
+        $offset = ($page - 1) * $limit;
+
+        $allFaculty = new Faculty();
+        $allFaculty->id = 0;
+        $allFaculty->name = '- Semua Fakultas -';
+
+        $faculties = Faculty::searchSelectTwo($search)
+                    ->orderBy('name', 'asc')
+                    ->take($limit)
+                    ->skip($offset)
+                    ->get();
+
+        $facultiesCount = Faculty::searchSelectTwo($search)->count();
+
+        $faculties->prepend($allFaculty);
+
+        return response()->json([
+            'results' => FakultasSelectTwoResource::collection($faculties),
+            'pagination' => [
+                'more' => ($page * $limit) < $facultiesCount
+            ]
+        ]);
     }
 }
