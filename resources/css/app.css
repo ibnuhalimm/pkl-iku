@@ -125,3 +125,9 @@ table.dataTable tbody tr td {
 table.dataTable tbody tr:last-child td {
     @apply border border-dashed border-t-0 border-r-0 border-l-0 border-transparent;
 }
+
+.dataTables_wrapper .dataTables_paginate .paginate_button,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    @apply rounded-md;
+}

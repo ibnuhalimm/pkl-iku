@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Kampus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Kampus\Fakultas\DatatableRequest;
 use App\Http\Requests\Kampus\Fakultas\StoreRequest;
+use App\Http\Requests\Kampus\Fakultas\UpdateRequest;
 use App\Models\Faculty;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -19,16 +20,6 @@ class FakultasController extends Controller
     public function index()
     {
         return view('app.kampus.fakultas.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -54,37 +45,27 @@ class FakultasController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Kampus\Fakultas\UpdateRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request)
     {
-        //
+        try {
+            $faculty = Faculty::where('id', $request->id)->first();
+
+            $faculty->name = $request->name;
+            $faculty->save();
+
+            return $this->apiResponse(200, 'Data tersimpan');
+
+        } catch (\Throwable $th) {
+            report($th);
+
+            return $this->apiResponse(500, 'Terjadi kesalahan. ' . $th->getMessage());
+        }
     }
 
     /**

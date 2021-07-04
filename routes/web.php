@@ -16,8 +16,13 @@ Route::group([
     Route::name('kampus.')
         ->prefix('kampus')
         ->group(function() {
+
+            Route::get('fakultas', [ FakultasController::class, 'index' ])->name('fakultas.index');
             Route::get('fakultas/datatable', [FakultasController::class, 'dataTable'])->name('fakultas.datatable');
-            Route::resource('fakultas', FakultasController::class);
+            Route::post('fakultas/store', [ FakultasController::class, 'store' ])->name('fakultas.store');
+            Route::post('fakultas/update', [ FakultasController::class, 'update' ])->name('fakultas.update');
+            Route::post('fakultas/delete', [ FakultasController::class, 'destroy' ])->name('fakultas.destroy');
+
         });
 });
 
