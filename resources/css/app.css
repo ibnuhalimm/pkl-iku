@@ -6,6 +6,10 @@ body {
     @apply text-iku-dark text-sm;
 }
 
+body.modal-open {
+    @apply overflow-y-hidden;
+}
+
 
 @media (min-width: 1280px) {
     .menu-item--sub {
@@ -31,4 +35,93 @@ body {
 
 .left-sidebar--open {
     transform: none;
+}
+
+
+.btn-action--primary {
+    @apply px-2 py-1 h-8;
+    @apply shadow-md border border-solid border-iku-primary rounded-md outline-none focus:outline-none;
+    @apply text-center font-bold text-xs text-white bg-iku-primary hover:bg-opacity-80;
+    @apply transition duration-300;
+}
+
+.btn-action--secondary {
+    @apply px-2 py-1 h-8;
+    @apply shadow-md border border-solid border-iku-secondary rounded-md outline-none focus:outline-none;
+    @apply text-center font-bold text-xs text-white bg-iku-secondary hover:bg-opacity-80;
+    @apply transition duration-300;
+}
+
+.btn-action--red {
+    @apply px-2 py-1 h-8;
+    @apply shadow-md border border-solid border-red-500 rounded-md outline-none focus:outline-none;
+    @apply text-center font-bold text-xs text-white bg-red-500 hover:bg-opacity-80;
+    @apply transition duration-300;
+}
+
+.btn-action--green {
+    @apply px-2 py-1 h-8;
+    @apply shadow-md border border-solid border-green-500 rounded-md outline-none focus:outline-none;
+    @apply text-center font-bold text-xs text-white bg-green-500 hover:bg-opacity-80;
+    @apply transition duration-300;
+}
+
+.btn-action--blue {
+    @apply px-2 py-1 h-8;
+    @apply shadow-md border border-solid border-blue-500 rounded-md outline-none focus:outline-none;
+    @apply text-center font-bold text-xs text-white bg-blue-500 hover:bg-opacity-80;
+    @apply transition duration-300;
+}
+
+.btn-action--yellow {
+    @apply px-2 py-1 h-8;
+    @apply shadow-md border border-solid border-yellow-500 rounded-md outline-none focus:outline-none;
+    @apply text-center font-bold text-xs text-white bg-yellow-500 hover:bg-opacity-80;
+    @apply transition duration-300;
+}
+
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_length {
+    @apply mb-2;
+}
+
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_filter input {
+    @apply h-10;
+    @apply outline-none rounded-md;
+    @apply border border-solid border-gray-300;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    @apply px-2;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    @apply px-3;
+}
+
+table.dataTable thead {
+    @apply bg-iku-primary text-white;
+}
+
+table.dataTable thead th,
+table.dataTable thead td {
+    @apply py-4;
+    @apply border border-solid border-t-0 border-r-0 border-l-0 border-gray-300;
+}
+
+table.dataTable.no-footer {
+    @apply border border-solid border-t-0 border-r-0 border-l-0 border-gray-300;
+}
+
+table.dataTable tbody tr:hover {
+    @apply bg-gray-100;
+}
+
+table.dataTable tbody tr td {
+    @apply border border-dashed border-t-0 border-r-0 border-l-0 border-gray-300;
+}
+
+table.dataTable tbody tr:last-child td {
+    @apply border border-dashed border-t-0 border-r-0 border-l-0 border-transparent;
 }

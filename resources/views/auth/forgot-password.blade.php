@@ -38,7 +38,7 @@
                         <x-input-text type="email" name="email" id="__emailForgotPassword" autocomplete="off" autofocus />
                     </x-form-group>
                     <div>
-                        <x-button type="submit" color="primary">
+                        <x-button type="submit" color="primary" class="block w-full">
                             {{ __('Send Reset Link') }}
                         </x-button>
                     </div>

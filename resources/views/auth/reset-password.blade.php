@@ -46,7 +46,7 @@
                         <x-input-text type="password" name="password_confirmation" id="__password_confirmationLogin" autocomplete="off" />
                     </x-form-group>
                     <div>
-                        <x-button type="submit" color="primary">
+                        <x-button type="submit" color="primary" class="block w-full">
                             {{ __('Save New Password') }}
                         </x-button>
                     </div>

@@ -12,15 +12,24 @@
     </title>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
-    <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com/" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net/" crossorigin>
+    <link rel="preconnect" href="https://cdn.datatables.net/" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net/">
+    <link rel="dns-prefetch" href="https://cdn.datatables.net/">
+
+    @stack('top_css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css?_=' . rand()) }}">
+    @stack('bottom_css')
 
     <script src="{{ asset('js/app.js?_=' . rand()) }}" defer></script>
 
 </head>
 <body class="bg-white">
 
-    <header class="fixed top-0 left-0 w-full border border-solid border-t-0 border-r-0 border-l-0 shadow-sm bg-white">
+    <header class="fixed top-0 left-0 w-full border border-solid border-t-0 border-r-0 border-l-0 shadow-sm bg-white z-10">
         <nav class="flex flex-row items-center justify-between xl:justify-end">
             <div class="w-full h-full fixed inset-0 z-20 transition-opacity duration-500 opacity-0 pointer-events-none xl:pointer-events-auto xl:hidden" id="__sidebarBackdrop">
                 <div class="absolute w-full h-full bg-gray-900 bg-opacity-50 z-40"></div>
@@ -29,7 +38,7 @@
                 <div class="w-full h-full flex flex-col overflow-y-auto pb-10">
                     <div class="block xl:hidden w-1/3 mx-auto py-4 mb-5">
                         <a href="{{ route('home') }}" class="block w-full">
-                            <img src="{{ asset('img/logo.png?_=' . rand()) }}" alt="{{ config('app.name') }}" class="w-full h-auto">
+                            <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" class="w-full h-auto">
                         </a>
                     </div>
                     <div class="w-11/12 mx-auto xl:px-2 xl:py-5">
@@ -118,7 +127,7 @@
                                     </x-sidebar.subnav-item>
                                 </x-sidebar.subnav-wrapper>
                             </x-sidebar.nav-item>
-                            <x-sidebar.nav-item :active="false" x-data="{ subnavOpen: false }">
+                            <x-sidebar.nav-item :active="request()->is('kampus*')" x-data="{ subnavOpen: {{ (request()->is('kampus*')) ? 'true' : 'false' }} }">
                                 <x-sidebar.nav-link href="#" :active="false" x-on:click="subnavOpen = !subnavOpen">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 h-4 bi bi-bookmark-star" viewBox="0 0 16 16">
                                         <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098L7.84 4.1z"/>
@@ -133,9 +142,9 @@
                                         </svg>
                                     </span>
                                 </x-sidebar.nav-link>
-                                <x-sidebar.subnav-wrapper x-show="subnavOpen">
-                                    <x-sidebar.subnav-item :active="false">
-                                        <x-sidebar.subnav-link href="#" :active="false">
+                                <x-sidebar.subnav-wrapper :active="request()->is('kampus*')" x-show="subnavOpen">
+                                    <x-sidebar.subnav-item>
+                                        <x-sidebar.subnav-link :href="route('kampus.fakultas.index')" :active="request()->is('kampus/fakultas*')">
                                             Fakultas
                                         </x-sidebar.subnav-link>
                                     </x-sidebar.subnav-item>
@@ -187,7 +196,7 @@
             </div>
             <div class="w-1/3 xl:w-2/3 py-3">
                 <a href="{{ route('home') }}" class="block h-8 w-20 mx-auto xl:mx-0 xl:ml-20">
-                    <img src="{{ asset('img/logo.png?_=' . rand()) }}" alt="{{ config('app.name') }}">
+                    <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}">
                 </a>
             </div>
             <div class="w-1/3">
@@ -207,7 +216,10 @@
         </div>
     </main>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="{{ asset('js/sidebar-nav.js') }}"></script>
+    @stack('bottom_js')
 
 </body>
 </html>
