@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Kampus\{FakultasController, ProdiController};
+use App\Http\Controllers\Perusahaan\KategoriController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
@@ -11,6 +12,19 @@ Route::group([
     Route::get('/', function () {
         return view('app.dashboard');
     })->name('home');
+
+    Route::name('perusahaan.')
+        ->prefix('perusahaan')
+        ->group(function() {
+
+            Route::get('kategori', [ KategoriController::class, 'index' ])->name('kategori.index');
+            Route::get('kategori/datatable', [KategoriController::class, 'dataTable'])->name('kategori.datatable');
+            Route::post('kategori/store', [ KategoriController::class, 'store' ])->name('kategori.store');
+            Route::post('kategori/update', [ KategoriController::class, 'update' ])->name('kategori.update');
+            Route::post('kategori/delete', [ KategoriController::class, 'destroy' ])->name('kategori.destroy');
+            Route::get('kategori/select', [ KategoriController::class, 'selectTwo' ])->name('kategori.select');
+
+        });
 
 
     Route::name('kampus.')
