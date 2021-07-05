@@ -26,4 +26,22 @@ class CompanyCategory extends Model
 
         return;
     }
+
+    /**
+     * Query to search from selectTwo
+     *
+     * @param  \Illuminate\Database\Query\Builder   $query
+     * @param  string|null                          $keyword
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function scopeSearchSelectTwo($query, $keyword = null)
+    {
+        if (!empty($keyword)) {
+            return $query->where(function($query) use ($keyword) {
+                $query->where('name', 'like', "%$keyword%");
+            });
+        }
+
+        return;
+    }
 }

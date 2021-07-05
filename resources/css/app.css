@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body {
+    scroll-behavior: smooth;
     @apply overflow-y-scroll;
     @apply text-iku-dark text-sm;
 }
@@ -38,8 +39,8 @@ body.modal-open {
     transform: none;
 }
 
-
 .btn-action--primary {
+    @apply inline-block align-middle;
     @apply px-2 py-1 h-8 mb-1;
     @apply shadow-md border border-solid border-iku-primary rounded-md outline-none focus:outline-none;
     @apply text-center font-bold text-xs text-white bg-iku-primary hover:bg-opacity-80;
@@ -47,6 +48,7 @@ body.modal-open {
 }
 
 .btn-action--secondary {
+    @apply inline-block align-middle;
     @apply px-2 py-1 h-8 mb-1;
     @apply shadow-md border border-solid border-iku-secondary rounded-md outline-none focus:outline-none;
     @apply text-center font-bold text-xs text-white bg-iku-secondary hover:bg-opacity-80;
@@ -54,6 +56,7 @@ body.modal-open {
 }
 
 .btn-action--red {
+    @apply inline-block align-middle;
     @apply px-2 py-1 h-8 mb-1;
     @apply shadow-md border border-solid border-red-500 rounded-md outline-none focus:outline-none;
     @apply text-center font-bold text-xs text-white bg-red-500 hover:bg-opacity-80;
@@ -61,6 +64,7 @@ body.modal-open {
 }
 
 .btn-action--green {
+    @apply inline-block align-middle;
     @apply px-2 py-1 h-8 mb-1;
     @apply shadow-md border border-solid border-green-500 rounded-md outline-none focus:outline-none;
     @apply text-center font-bold text-xs text-white bg-green-500 hover:bg-opacity-80;
@@ -68,6 +72,7 @@ body.modal-open {
 }
 
 .btn-action--blue {
+    @apply inline-block align-middle;
     @apply px-2 py-1 h-8 mb-1;
     @apply shadow-md border border-solid border-blue-500 rounded-md outline-none focus:outline-none;
     @apply text-center font-bold text-xs text-white bg-blue-500 hover:bg-opacity-80;
@@ -75,6 +80,7 @@ body.modal-open {
 }
 
 .btn-action--yellow {
+    @apply inline-block align-middle;
     @apply px-2 py-1 h-8 mb-1;
     @apply shadow-md border border-solid border-yellow-500 rounded-md outline-none focus:outline-none;
     @apply text-center font-bold text-xs text-white bg-yellow-500 hover:bg-opacity-80;
@@ -156,7 +162,7 @@ table.dataTable tbody tr:last-child td {
     @apply h-10 w-9;
 }
 .select2-container--default .select2-selection--single .select2-selection__clear {
-    @apply h-10 mr-8;
+    @apply h-10 mr-5;
 }
 .select2-container--default .select2-search--dropdown .select2-search__field {
     @apply px-3 py-1 h-10;

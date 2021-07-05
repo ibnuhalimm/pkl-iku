@@ -5,7 +5,8 @@ module.exports = {
 
     purge: {
         content: [
-             './resources/views/**/*.blade.php'
+            './app/Http/Controllers/**/*.php',
+            './resources/views/**/*.blade.php'
         ]
     },
 

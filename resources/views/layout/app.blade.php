@@ -99,7 +99,7 @@
                                 </x-sidebar.nav-link>
                             </x-sidebar.nav-item>
 
-                            <x-sidebar.nav-item :active="request()->is('perusahaan/kategori*')" x-data="{ subnavOpen: {{ (request()->is('perusahaan/kategori*')) ? 'true' : 'false' }} }">
+                            <x-sidebar.nav-item :active="request()->is('perusahaan*')" x-data="{ subnavOpen: {{ (request()->is('perusahaan*')) ? 'true' : 'false' }} }">
                                 <x-sidebar.nav-link href="#" :active="false" x-on:click="subnavOpen = !subnavOpen">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 h-4 bi bi-building" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z"/>
@@ -115,8 +115,8 @@
                                     </span>
                                 </x-sidebar.nav-link>
                                 <x-sidebar.subnav-wrapper x-show="subnavOpen">
-                                    <x-sidebar.subnav-item :active="false">
-                                        <x-sidebar.subnav-link href="#" :active="false">
+                                    <x-sidebar.subnav-item :active="request()->is('perusahaan/data*')">
+                                        <x-sidebar.subnav-link :href="route('perusahaan.data.index')" :active="request()->is('perusahaan/data*')">
                                             Data Perusahaan
                                         </x-sidebar.subnav-link>
                                     </x-sidebar.subnav-item>

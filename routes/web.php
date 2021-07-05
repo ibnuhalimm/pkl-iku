@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\Indonesia\{KotaController, ProvinsiController};
 use App\Http\Controllers\Kampus\{FakultasController, ProdiController};
-use App\Http\Controllers\Perusahaan\KategoriController;
+use App\Http\Controllers\Perusahaan\{DataController as DataPerusahaanController, KategoriController};
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
@@ -16,6 +17,11 @@ Route::group([
     Route::name('perusahaan.')
         ->prefix('perusahaan')
         ->group(function() {
+
+            Route::get('data/datatable', [DataPerusahaanController::class, 'dataTable'])->name('data.datatable');
+            Route::post('data/update', [DataPerusahaanController::class, 'update'])->name('data.update');
+            Route::post('data/delete', [DataPerusahaanController::class, 'destroy'])->name('data.destroy');
+            Route::resource('data', DataPerusahaanController::class)->except([ 'show', 'update', 'destroy' ]);
 
             Route::get('kategori', [ KategoriController::class, 'index' ])->name('kategori.index');
             Route::get('kategori/datatable', [KategoriController::class, 'dataTable'])->name('kategori.datatable');
@@ -44,6 +50,16 @@ Route::group([
             Route::post('prodi/update', [ ProdiController::class, 'update' ])->name('prodi.update');
             Route::post('prodi/delete', [ ProdiController::class, 'destroy' ])->name('prodi.destroy');
             Route::get('prodi/detail', [ ProdiController::class, 'show' ])->name('prodi.show');
+
+        });
+
+
+    Route::name('indonesia.')
+        ->prefix('indonesia')
+        ->group(function() {
+
+            Route::get('provinsi/select', [ ProvinsiController::class, 'selectTwo' ])->name('provinsi.select');
+            Route::get('kota/select', [ KotaController::class, 'selectTwo' ])->name('kota.select');
 
         });
 });

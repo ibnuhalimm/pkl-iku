@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Perusahaan;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Perusahaan\Kategori\{DatatableRequest, DeleteRequest, StoreRequest, UpdateRequest};
+use App\Http\Requests\Perusahaan\Kategori\{DatatableRequest, DeleteRequest, SelectTwoRequest, StoreRequest, UpdateRequest};
+use App\Http\Resources\KategoriPerusahaanSelectResource;
 use App\Models\CompanyCategory;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -138,5 +139,44 @@ class KategoriController extends Controller
                 ->skipPaging(true)
                 ->setTotalRecords($categoriesCount)
                 ->make(true);
+    }
+
+    /**
+     * Handle select2 ajax
+     *
+     * @param  \App\Http\Requests\Perusahaan\Kategori\SelectTwoRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function selectTwo(SelectTwoRequest $request)
+    {
+        $page = $request->get('page');
+        $search = $request->get('search', '');
+        $allowAll = boolval($request->get('allowAll', false));
+
+        $limit = 20;
+        $offset = ($page - 1) * $limit;
+
+        $categories = CompanyCategory::selectRaw('id, name')
+                        ->searchSelectTwo($search)
+                        ->orderBy('name', 'asc')
+                        ->take($limit)
+                        ->skip($offset)
+                        ->get();
+
+        $categoriesCount = CompanyCategory::searchSelectTwo($search)->count();
+
+        if ($allowAll) {
+            $categoryAll = new CompanyCategory();
+            $categoryAll->id = 0;
+            $categoryAll->name = '- Semua Kategori -';
+            $categories->prepend($categoryAll);
+        }
+
+        return response()->json([
+            'results' => KategoriPerusahaanSelectResource::collection($categories),
+            'pagination' => [
+                'more' => ($page * $limit) < $categoriesCount
+            ]
+        ]);
     }
 }
