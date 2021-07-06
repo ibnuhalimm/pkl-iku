@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Indonesia\{KotaController, ProvinsiController};
+use App\Http\Controllers\BiodataController;
+use App\Http\Controllers\Indonesia\{DesaController, KecamatanController, KotaController, ProvinsiController};
 use App\Http\Controllers\Kampus\{FakultasController, ProdiController};
 use App\Http\Controllers\Perusahaan\{DataController as DataPerusahaanController, KategoriController};
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
-
 
 Route::group([
     'middleware' => 'auth'
@@ -13,6 +13,13 @@ Route::group([
     Route::get('/', function () {
         return view('app.dashboard');
     })->name('home');
+
+    Route::get('biodata/datatable', [BiodataController::class, 'dataTable'])->name('biodata.datatable');
+    Route::post('biodata/update', [BiodataController::class, 'update'])->name('biodata.update');
+    Route::post('biodata/delete', [BiodataController::class, 'destroy'])->name('biodata.destroy');
+    Route::resource('biodata', BiodataController::class)->except([ 'show', 'edit', 'update', 'destroy' ]);
+    Route::get('biodata/{biodata}/edit', [BiodataController::class, 'edit'])->name('biodata.edit');
+
 
     Route::name('perusahaan.')
         ->prefix('perusahaan')
@@ -60,6 +67,8 @@ Route::group([
 
             Route::get('provinsi/select', [ ProvinsiController::class, 'selectTwo' ])->name('provinsi.select');
             Route::get('kota/select', [ KotaController::class, 'selectTwo' ])->name('kota.select');
+            Route::get('kecamatan/select', [ KecamatanController::class, 'selectTwo' ])->name('kecamatan.select');
+            Route::get('desa/select', [ DesaController::class, 'selectTwo' ])->name('desa.select');
 
         });
 });

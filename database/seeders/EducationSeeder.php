@@ -25,12 +25,17 @@ class EducationSeeder extends Seeder
                 'updated_at' => new DateTime()
             ],
             [
-                'name' => 'Tamat SD',
+                'name' => 'Tamat SD/MI/Sederajat',
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime()
             ],
             [
-                'name' => 'Tamat SMA/SMK',
+                'name' => 'Tamat SMP/Mts/Sederajat',
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime()
+            ],
+            [
+                'name' => 'Tamat SMA/SMK/MA',
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime()
             ],
