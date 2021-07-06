@@ -153,11 +153,6 @@
                                             Program Studi
                                         </x-sidebar.subnav-link>
                                     </x-sidebar.subnav-item>
-                                    <x-sidebar.subnav-item>
-                                        <x-sidebar.subnav-link href="#">
-                                            Jenjang
-                                        </x-sidebar.subnav-link>
-                                    </x-sidebar.subnav-item>
                                 </x-sidebar.subnav-wrapper>
                             </x-sidebar.nav-item>
                             <x-sidebar.nav-item>
