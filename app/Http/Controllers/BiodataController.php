@@ -294,7 +294,7 @@ class BiodataController extends Controller
         return DataTables::of($biodatas)
                 ->addColumn('photo_url', function($biodata) {
                     return '
-                        <img src="'. $biodata->photo_url .'" class="w-10 h-full" />
+                        <img src="'. $biodata->photo_url .'" class="w-10 h-auto" />
                     ';
                 })
                 ->addColumn('birth_date', function($biodata) {
