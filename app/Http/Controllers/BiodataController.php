@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Biodata\DatatableRequest;
 use App\Http\Requests\Biodata\DeleteRequest;
+use App\Http\Requests\Biodata\SelectTwoRequest;
 use App\Http\Requests\Biodata\StoreRequest;
 use App\Http\Requests\Biodata\UpdateRequest;
+use App\Http\Resources\Biodata\SelectTwoResource;
 use App\Models\Biodata;
 use App\Models\BiodataParent;
 use App\Models\Education;
@@ -94,6 +96,47 @@ class BiodataController extends Controller
             $biodateParent->save();
 
             return $this->apiResponse(200, 'Data berhasil disimpan.');
+
+        } catch (\Throwable $th) {
+            report($th);
+
+            return $this->apiResponse(500, 'Terjadi kesalahan. ' . $th->getMessage());
+        }
+    }
+
+    /**
+     * Show the details of data
+     * Catch by id
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request)
+    {
+        try {
+            $biodataId = $request->get('id', 0);
+
+            $biodata = Biodata::where('id', $biodataId)
+                    ->with(['parent' => function($parent) {
+                        $parent->with('father_religion')
+                            ->with('father_profession')
+                            ->with('father_education')
+                            ->with('mother_religion')
+                            ->with('mother_profession')
+                            ->with('mother_education');
+                    }])
+                    ->with('religion')
+                    ->with('province')
+                    ->with('city')
+                    ->with('district')
+                    ->with('village')
+                    ->first();
+
+            if (!$biodata) {
+                return $this->apiResponse(404, 'Data tidak ditemukan');
+            }
+
+            return $this->apiResponse(200, 'Sukses.', $biodata);
 
         } catch (\Throwable $th) {
             report($th);
@@ -273,5 +316,35 @@ class BiodataController extends Controller
                 ->skipPaging(true)
                 ->setTotalRecords($biodatasCount)
                 ->make(true);
+    }
+
+    /**
+     * Handle select2 ajax
+     *
+     * @param  \App\Http\Requests\Biodata\SelectTwoRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function selectTwo(SelectTwoRequest $request)
+    {
+        $page = $request->get('page');
+        $search = $request->get('search', '');
+
+        $limit = 20;
+        $offset = ($page - 1) * $limit;
+
+        $biodatas = Biodata::searchSelectTwo($search)
+                        ->orderBy('id_card_number', 'asc')
+                        ->take($limit)
+                        ->skip($offset)
+                        ->get();
+
+        $biodatasCount = Biodata::searchSelectTwo($search)->count();
+
+        return response()->json([
+            'results' => SelectTwoResource::collection($biodatas),
+            'pagination' => [
+                'more' => ($page * $limit) < $biodatasCount
+            ]
+        ]);
     }
 }

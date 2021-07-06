@@ -432,9 +432,9 @@
         const villageSelectTwoUrl = '{{ route('indonesia.desa.select') }}';
         const datatablePageUrl = '{{ route('biodata.index') }}';
 
-        var provinceId = 0;
-        var cityId = 0;
-        var districtId = 0;
+        var provinceId = $biodata->province_id;
+        var cityId = $biodata->city_id;
+        var districtId = $biodata->district_id;
 
 
         $('#__genderCreateBiodata').select2({

@@ -3,6 +3,7 @@
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\Indonesia\{DesaController, KecamatanController, KotaController, ProvinsiController};
 use App\Http\Controllers\Kampus\{FakultasController, ProdiController};
+use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\Perusahaan\{DataController as DataPerusahaanController, KategoriController};
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -14,9 +15,18 @@ Route::group([
         return view('app.dashboard');
     })->name('home');
 
+    Route::get('mahasiswa/datatable', [MahasiswaController::class, 'dataTable'])->name('mahasiswa.datatable');
+    Route::post('mahasiswa/update', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
+    Route::post('mahasiswa/delete', [MahasiswaController::class, 'destroy'])->name('mahasiswa.destroy');
+    Route::resource('mahasiswa', MahasiswaController::class)->except([ 'show', 'edit', 'update', 'destroy' ]);
+    Route::get('mahasiswa/{mahasiswa}/edit', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
+
+
     Route::get('biodata/datatable', [BiodataController::class, 'dataTable'])->name('biodata.datatable');
+    Route::get('biodata/show', [BiodataController::class, 'show'])->name('biodata.show');
     Route::post('biodata/update', [BiodataController::class, 'update'])->name('biodata.update');
     Route::post('biodata/delete', [BiodataController::class, 'destroy'])->name('biodata.destroy');
+    Route::get('biodata/select', [BiodataController::class, 'selectTwo'])->name('biodata.select');
     Route::resource('biodata', BiodataController::class)->except([ 'show', 'edit', 'update', 'destroy' ]);
     Route::get('biodata/{biodata}/edit', [BiodataController::class, 'edit'])->name('biodata.edit');
 
