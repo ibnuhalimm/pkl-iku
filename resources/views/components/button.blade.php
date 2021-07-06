@@ -33,6 +33,14 @@
             {{ $slot }}
         </button>
         @break
+    @case('yellow')
+        <button {{ $attributes->merge([
+            'type' => 'button',
+            'class' => 'h-10 px-3 py-2 text-center text-sm bg-yellow-500 hover:bg-opacity-80 shadow-md text-white font-bold border border-solid border-yellow-300 rounded-md outline-none focus:outline-none transition duration-300'
+        ]) }}>
+            {{ $slot }}
+        </button>
+        @break
     @case('dark')
         <button {{ $attributes->merge([
             'type' => 'button',

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BiodataController;
+use App\Http\Controllers\Iku\KerjaLayakController;
 use App\Http\Controllers\Indonesia\{DesaController, KecamatanController, KotaController, ProvinsiController};
 use App\Http\Controllers\Kampus\{FakultasController, ProdiController};
 use App\Http\Controllers\MahasiswaController;
@@ -14,6 +15,20 @@ Route::group([
     Route::get('/', function () {
         return view('app.dashboard');
     })->name('home');
+
+    Route::name('iku.')
+        ->prefix('iku')
+        ->group(function() {
+
+            Route::get('kerja-layak/datatable', [KerjaLayakController::class, 'dataTable'])->name('kerja-layak.datatable');
+            Route::get('kerja-layak/export-excel', [KerjaLayakController::class, 'exportExcel'])->name('kerja-layak.export-excel');
+            Route::post('kerja-layak/update', [KerjaLayakController::class, 'update'])->name('kerja-layak.update');
+            Route::post('kerja-layak/delete', [KerjaLayakController::class, 'destroy'])->name('kerja-layak.destroy');
+            Route::post('kerja-layak/{kerja_layak}/edit', [KerjaLayakController::class, 'edit'])->name('kerja-layak.edit');
+            Route::resource('kerja-layak', KerjaLayakController::class)->except([ 'show', 'edit', 'update', 'destroy' ]);
+
+        });
+
 
     Route::get('mahasiswa/datatable', [MahasiswaController::class, 'dataTable'])->name('mahasiswa.datatable');
     Route::post('mahasiswa/update', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
