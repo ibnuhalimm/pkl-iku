@@ -127,45 +127,50 @@
                                     </x-sidebar.subnav-item>
                                 </x-sidebar.subnav-wrapper>
                             </x-sidebar.nav-item>
-                            <x-sidebar.nav-item :active="request()->is('kampus*')" x-data="{ subnavOpen: {{ (request()->is('kampus*')) ? 'true' : 'false' }} }">
-                                <x-sidebar.nav-link href="#" :active="false" x-on:click="subnavOpen = !subnavOpen">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 h-4 bi bi-bookmark-star" viewBox="0 0 16 16">
-                                        <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098L7.84 4.1z"/>
-                                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
-                                    </svg>
-                                    <span class="ml-3">
-                                        Kampus
-                                    </span>
-                                    <span class="absolute left-auto right-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-3 h-3 bi bi-caret-down" viewBox="0 0 16 16">
-                                            <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/>
+
+                            @if (Auth::user()->role_id == $superUserRole)
+                                <x-sidebar.nav-item :active="request()->is('kampus*')" x-data="{ subnavOpen: {{ (request()->is('kampus*')) ? 'true' : 'false' }} }">
+                                    <x-sidebar.nav-link href="#" :active="false" x-on:click="subnavOpen = !subnavOpen">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 h-4 bi bi-bookmark-star" viewBox="0 0 16 16">
+                                            <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098L7.84 4.1z"/>
+                                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
                                         </svg>
-                                    </span>
-                                </x-sidebar.nav-link>
-                                <x-sidebar.subnav-wrapper :active="request()->is('kampus*') OR request()->is('prodi*')" x-show="subnavOpen">
-                                    <x-sidebar.subnav-item>
-                                        <x-sidebar.subnav-link :href="route('kampus.fakultas.index')" :active="request()->is('kampus/fakultas*')">
-                                            Fakultas
-                                        </x-sidebar.subnav-link>
-                                    </x-sidebar.subnav-item>
-                                    <x-sidebar.subnav-item>
-                                        <x-sidebar.subnav-link :href="route('kampus.prodi.index')" :active="request()->is('kampus/prodi*')">
-                                            Program Studi
-                                        </x-sidebar.subnav-link>
-                                    </x-sidebar.subnav-item>
-                                </x-sidebar.subnav-wrapper>
-                            </x-sidebar.nav-item>
-                            <x-sidebar.nav-item :active="request()->routeIs('user-role.index')">
-                                <x-sidebar.nav-link :href="route('user-role.index')" :active="request()->routeIs('user-role.index')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 h-4 bi bi-person-check" viewBox="0 0 16 16">
-                                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-                                        <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-                                    </svg>
-                                    <span class="ml-3">
-                                        User & Hak Akses
-                                    </span>
-                                </x-sidebar.nav-link>
-                            </x-sidebar.nav-item>
+                                        <span class="ml-3">
+                                            Kampus
+                                        </span>
+                                        <span class="absolute left-auto right-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-3 h-3 bi bi-caret-down" viewBox="0 0 16 16">
+                                                <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/>
+                                            </svg>
+                                        </span>
+                                    </x-sidebar.nav-link>
+                                    <x-sidebar.subnav-wrapper :active="request()->is('kampus*') OR request()->is('prodi*')" x-show="subnavOpen">
+                                        <x-sidebar.subnav-item>
+                                            <x-sidebar.subnav-link :href="route('kampus.fakultas.index')" :active="request()->is('kampus/fakultas*')">
+                                                Fakultas
+                                            </x-sidebar.subnav-link>
+                                        </x-sidebar.subnav-item>
+                                        <x-sidebar.subnav-item>
+                                            <x-sidebar.subnav-link :href="route('kampus.prodi.index')" :active="request()->is('kampus/prodi*')">
+                                                Program Studi
+                                            </x-sidebar.subnav-link>
+                                        </x-sidebar.subnav-item>
+                                    </x-sidebar.subnav-wrapper>
+                                </x-sidebar.nav-item>
+
+                                <x-sidebar.nav-item :active="request()->routeIs('user-role.index')">
+                                    <x-sidebar.nav-link :href="route('user-role.index')" :active="request()->routeIs('user-role.index')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 h-4 bi bi-person-check" viewBox="0 0 16 16">
+                                            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                            <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                        </svg>
+                                        <span class="ml-3">
+                                            User & Hak Akses
+                                        </span>
+                                    </x-sidebar.nav-link>
+                                </x-sidebar.nav-item>
+                            @endif
+
                             <x-sidebar.nav-item>
                                 <x-sidebar.nav-link :href="route('logout')" :active="false">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 h-4 bi bi-box-arrow-left" viewBox="0 0 16 16">

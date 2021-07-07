@@ -74,6 +74,7 @@ Route::group([
 
     Route::name('kampus.')
         ->prefix('kampus')
+        ->middleware([ 'superuser.only' ])
         ->group(function() {
 
             Route::get('fakultas', [ FakultasController::class, 'index' ])->name('fakultas.index');
@@ -93,12 +94,15 @@ Route::group([
         });
 
 
-    Route::get('user-role/datatable', [ UserRoleController::class, 'dataTable' ])->name('user-role.datatable');
-    Route::post('user-role/update', [ UserRoleController::class, 'update' ])->name('user-role.update');
-    Route::post('user-role/delete', [ UserRoleController::class, 'destroy' ])->name('user-role.destroy');
-    Route::resource('user-role', UserRoleController::class)->except([ 'show', 'edit', 'update', 'destroy' ]);
+    Route::middleware([ 'superuser.only' ])
+        ->group(function() {
+            Route::get('user-role/datatable', [ UserRoleController::class, 'dataTable' ])->name('user-role.datatable');
+            Route::post('user-role/update', [ UserRoleController::class, 'update' ])->name('user-role.update');
+            Route::post('user-role/delete', [ UserRoleController::class, 'destroy' ])->name('user-role.destroy');
+            Route::resource('user-role', UserRoleController::class)->except([ 'show', 'edit', 'update', 'destroy' ]);
 
-    Route::post('admin/reset-password', [ ResetPasswordAdminController::class, 'store' ])->name('admin.reset-password');
+            Route::post('admin/reset-password', [ ResetPasswordAdminController::class, 'store' ])->name('admin.reset-password');
+        });
 
 
     Route::name('indonesia.')
