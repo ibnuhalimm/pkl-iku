@@ -183,7 +183,7 @@
                                     </x-form-label>
                                     <div class="grid grid-cols-2 gap-4">
                                         <div>
-                                            <x-form.input-text type="text" name="emp_contract_duration" id="__emp_contract_durationEditGradJob" value="{{ $gradJob->emp_contract_duration }}" />
+                                            <x-form.input-text type="text" name="emp_contract_duration" id="__emp_contract_durationEditGradJob" value="{{ ($gradJob->emp_contract_duration > 0) ? $gradJob->emp_contract_duration : '' }}" />
                                         </div>
                                         <div>
                                             <x-form.input-text type="text" id="__monthStringContractDuration" class="bg-gray-200" value="Bulan" readonly />

@@ -32,7 +32,7 @@ class StoreRequest extends FormRequest
             'company_id' => [ 'required' ],
             'sallary' => [ 'required', 'numeric' ],
             'emp_agreement_image' => [ 'nullable', 'image', 'mimes:jpg,jpeg,png' ],
-            'emp_contract_duration' => [ 'required_if:emp_type,' . GradJob::EMP_TYPE_CONTRACT, 'integer' ]
+            'emp_contract_duration' => [ 'nullable', 'required_if:emp_type,' . GradJob::EMP_TYPE_CONTRACT, 'integer' ]
         ];
     }
 
