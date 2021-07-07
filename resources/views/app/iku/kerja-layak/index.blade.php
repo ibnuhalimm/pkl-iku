@@ -88,7 +88,7 @@
     </x-card.card-default>
 
 
-    {{-- <x-modal.modal-sm id="__modalDeleteMahasiswa" class="hidden">
+    <x-modal.modal-sm id="__modalDeleteGradJob" class="hidden">
         <x-modal.header>
             <x-modal.title>
                 {{ __('Hapus Data') }}
@@ -96,27 +96,27 @@
         </x-modal.header>
         <x-modal.body>
 
-            <x-alert-simple color="red" id="__alertErrorDeleteMahasiswa" class="alert hidden" />
+            <x-alert-simple color="red" id="__alertErrorDeleteGradJob" class="alert hidden" />
 
-            <form action="{{ route('iku.kerja-layak.destroy') }}" id="__formDeleteMahasiswa">
+            <form action="{{ route('iku.kerja-layak.destroy') }}" id="__formDeleteGradJob">
                 @csrf
-                <input type="hidden" name="id" id="__idDeleteMahasiswa">
+                <input type="hidden" name="id" id="__idDeleteGradJob">
 
                 <p class="text-center mb-5">
                     Apakah Anda yakin ingin menghapus data ini?
                 </p>
                 <div class="text-center">
-                    <x-button type="button" color="gray" id="__btnNoDeleteMahasiswaModal">
+                    <x-button type="button" color="gray" id="__btnNoDeleteGradJobModal">
                         {{ __('Tidak') }}
                     </x-button>
-                    <x-button type="submit" color="red" id="__btnYesDeleteMahasiswaModal">
+                    <x-button type="submit" color="red" id="__btnYesDeleteGradJobModal">
                         {{ __('Ya, Hapus') }}
                     </x-button>
                 </div>
             </form>
 
         </x-modal.body>
-    </x-modal.modal-sm> --}}
+    </x-modal.modal-sm>
 
 @endsection
 
@@ -185,33 +185,33 @@
         });
 
 
-        const deleteMahasiswa = (el) => {
+        const deleteGradJob = (el) => {
             let id = el.getAttribute('data-id');
 
-            $('#__idDeleteMahasiswa').val(id);
+            $('#__idDeleteGradJob').val(id);
 
             $('.alert').addClass('hidden').html(null);
 
-            $('#__modalDeleteMahasiswa').removeClass('hidden');
+            $('#__modalDeleteGradJob').removeClass('hidden');
             $('body').addClass('modal-open');
         }
 
 
-        $('#__btnNoDeleteMahasiswaModal').on('click', function() {
+        $('#__btnNoDeleteGradJobModal').on('click', function() {
             $('.alert').addClass('hidden').html(null);
 
-            $('#__modalDeleteMahasiswa').addClass('hidden');
+            $('#__modalDeleteGradJob').addClass('hidden');
             $('body').removeClass('modal-open');
         });
 
 
-        $('#__formDeleteMahasiswa').on('submit', function(event) {
+        $('#__formDeleteGradJob').on('submit', function(event) {
             event.preventDefault();
 
             let formData = new FormData($(this)[0]);
 
-            $('#__btnNoDeleteMahasiswaModal').attr('disabled', true);
-            $('#__btnYesDeleteMahasiswaModal').attr('disabled', true).html('Menghapus...');
+            $('#__btnNoDeleteGradJobModal').attr('disabled', true);
+            $('#__btnYesDeleteGradJobModal').attr('disabled', true).html('Menghapus...');
 
             $('.alert').addClass('hidden').html(null);
 
@@ -219,27 +219,27 @@
                 .then(response => {
                     let responseData = response.data;
 
-                    // mahasiswaTable.ajax.reload(null, false);
+                    loadKerjaLayakTable(filterTahun);
 
-                    $('#__modalDeleteMahasiswa').addClass('hidden');
+                    $('#__modalDeleteGradJob').addClass('hidden');
                     $('body').removeClass('modal-open');
 
                     $('#__alertSuccessTable').removeClass('hidden').html(responseData.message);
                     $('html, body').animate({ scrollTop: 0 }, 'slow');
 
-                    $('#__btnNoDeleteMahasiswaModal').attr('disabled', false);
-                    $('#__btnYesDeleteMahasiswaModal').attr('disabled', false).html('Ya, Hapus');
+                    $('#__btnNoDeleteGradJobModal').attr('disabled', false);
+                    $('#__btnYesDeleteGradJobModal').attr('disabled', false).html('Ya, Hapus');
                 })
                 .catch(({response}) => {
                     let responseData = response.data;
 
-                    $('#__alertErrorDeleteMahasiswa').removeClass('hidden').html(null);
+                    $('#__alertErrorDeleteGradJob').removeClass('hidden').html(null);
 
                     if (response.status == 422) {
                         let errorFields = Object.keys(responseData.errors);
 
                         errorFields.map(field => {
-                            $('#__alertErrorDeleteMahasiswa').append(
+                            $('#__alertErrorDeleteGradJob').append(
                                 $('<div/>', {
                                     html: responseData.errors[field][0]
                                 })
@@ -247,12 +247,12 @@
                         });
 
                     } else {
-                        $('#__alertErrorDeleteMahasiswa').html(responseData.message);
+                        $('#__alertErrorDeleteGradJob').html(responseData.message);
 
                     }
 
-                    $('#__btnNoDeleteMahasiswaModal').attr('disabled', false);
-                    $('#__btnYesDeleteMahasiswaModal').attr('disabled', false).html('Ya, Hapus');
+                    $('#__btnNoDeleteGradJobModal').attr('disabled', false);
+                    $('#__btnYesDeleteGradJobModal').attr('disabled', false).html('Ya, Hapus');
                 });
 
             return false;

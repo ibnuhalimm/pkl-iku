@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Iku;
 use App\Exports\GradJobExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Iku\KerjaLayak\DatatableRequest;
+use App\Http\Requests\Iku\KerjaLayak\DeleteRequest;
 use App\Http\Requests\Iku\KerjaLayak\StoreRequest;
 use App\Http\Requests\Iku\KerjaLayak\UpdateRequest;
 use App\Models\GradJob;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\DataTables;
 
 class KerjaLayakController extends Controller
@@ -183,12 +185,22 @@ class KerjaLayakController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Http\Requests\Iku\KerjaLayak\DeleteRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DeleteRequest $request)
     {
-        //
+        try {
+            $gradJobId = $request->id;
+            GradJob::destroy($gradJobId);
+
+            return $this->apiResponse(Response::HTTP_OK, 'Data berhasil dihapus.');
+
+        } catch (\Throwable $th) {
+            report($th);
+
+            return $this->apiResponse(Response::HTTP_INTERNAL_SERVER_ERROR, 'Terjadi kesalahan. ' . $th->getMessage());
+        }
     }
 
     /**
@@ -236,6 +248,11 @@ class KerjaLayakController extends Controller
                         <a href="'. route('iku.kerja-layak.edit', [ 'kerja_layak' => $job ]) .'" class="btn-action--green">
                             <i class="fas fa-pencil-alt relative top-[0.125rem]"></i>
                         </a>
+                        <button type="button" class="btn-action--red"
+                            data-id="'. $job->id .'"
+                            onClick="deleteGradJob(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     ';
                 })
                 ->rawColumns([ 'no', 'date_start_work', 'action' ])
