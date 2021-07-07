@@ -6,6 +6,7 @@ use App\Exports\GradJobExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Iku\KerjaLayak\DatatableRequest;
 use App\Http\Requests\Iku\KerjaLayak\StoreRequest;
+use App\Http\Requests\Iku\KerjaLayak\UpdateRequest;
 use App\Models\GradJob;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -63,7 +64,7 @@ class KerjaLayakController extends Controller
             $gradJob->emp_agreement_image = $uploadedEmployeeAgreement;
 
             $empContractDuration = 0;
-            if ($request->emp_contract_duration == GradJob::EMP_TYPE_CONTRACT) {
+            if ($request->emp_type == GradJob::EMP_TYPE_CONTRACT) {
                 $empContractDuration = $request->emp_contract_duration;
             }
 
@@ -98,19 +99,85 @@ class KerjaLayakController extends Controller
      */
     public function edit($id)
     {
-        //
+        $gradJob = GradJob::where('id', $id)
+                    ->with(['student' => function($student) {
+                        $student->with('biodata')
+                            ->with('study_program');
+                    }])
+                    ->with('company')
+                    ->first();
+
+        abort_if(!$gradJob, Response::HTTP_NOT_FOUND, 'Data tidak ditemukan.');
+
+        $monthList = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        ];
+
+        $data = [
+            'jobCategories' => GradJob::getAllJobCategory(),
+            'employmentTypes' => GradJob::getAllEmpType(),
+            'contractEmployee' => GradJob::EMP_TYPE_CONTRACT,
+            'gradJob' => $gradJob,
+            'gradMonthName' => $monthList[$gradJob->student->month_grad - 1] ?? 'Januari'
+        ];
+
+        return view('app.iku.kerja-layak.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\Iku\KerjaLayak\UpdateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request)
     {
-        //
+        try {
+            $gradJobId = $request->id;
+
+            $gradJob = GradJob::where('id', $gradJobId)->first();
+            $gradJob->student_id = $request->student_id;
+            $gradJob->date_start = date('Y-m-d', strtotime($request->date_start));
+            $gradJob->job_category = $request->job_category;
+            $gradJob->emp_type = $request->emp_type;
+            $gradJob->company_id = $request->company_id;
+            $gradJob->sallary = $request->sallary;
+
+            $uploadedEmployeeAgreement = $gradJob->emp_agreement_image;
+            if ($request->hasFile('emp_agreement_image')) {
+                $uploadedEmployeeAgreement = $request->file('emp_agreement_image')->store(
+                    'kerja-layak/employee-agreement/', 'public'
+                );
+            }
+
+            $gradJob->emp_agreement_image = $uploadedEmployeeAgreement;
+
+            $empContractDuration = 0;
+            if ($request->emp_type == GradJob::EMP_TYPE_CONTRACT) {
+                $empContractDuration = $request->emp_contract_duration;
+            }
+
+            $gradJob->emp_contract_duration = $empContractDuration;
+            $gradJob->save();
+
+            return $this->apiResponse(Response::HTTP_OK, 'Data berhasil disimpan.');
+
+        } catch (\Throwable $th) {
+            report($th);
+
+            return $this->apiResponse(Response::HTTP_INTERNAL_SERVER_ERROR, 'Terjadi kesalahan. ' . $th->getMessage());
+        }
     }
 
     /**

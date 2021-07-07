@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class GradJob extends Model
 {
@@ -37,6 +38,35 @@ class GradJob extends Model
     CONST BUS_TYPE_FIRMA = 2;
     CONST BUS_TYPE_CV = 3;
     CONST BUS_TYPE_PT = 4;
+
+    /**
+     * Appends custom attributes
+     *
+     * @var array
+     */
+    protected $appends = [
+        'emp_agreement_image_url'
+    ];
+
+    /**
+     * Relationship to `students` table
+     *
+     * @return mixed
+     */
+    public function student()
+    {
+        return $this->belongsTo(Student::class)->withDefault();
+    }
+
+    /**
+     * Relationship to `companies` table
+     *
+     * @return mixed
+     */
+    public function company()
+    {
+        return $this->belongsTo(Company::class)->withDefault();
+    }
 
     /**
      * Get all Job Category
@@ -145,5 +175,21 @@ class GradJob extends Model
         }
 
         return;
+    }
+
+    /**
+     * Accessor for `emp_agreement_image_url` attribute
+     *
+     * @return string
+     */
+    public function getEmpAgreementImageUrlAttribute()
+    {
+        $empAgreementAttribute = $this->attributes['emp_agreement_image'] ?? '';
+
+        if (Storage::disk('public')->exists($empAgreementAttribute)) {
+            return Storage::url($empAgreementAttribute);
+        }
+
+        return asset('img/no-image.png');
     }
 }
