@@ -7,6 +7,8 @@ use App\Http\Controllers\Kampus\{FakultasController, ProdiController};
 use App\Http\Controllers\Mahasiswa\AlumniController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\Perusahaan\{DataController as DataPerusahaanController, KategoriController};
+use App\Http\Controllers\User\ResetPasswordAdminController;
+use App\Http\Controllers\User\UserRoleController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
@@ -90,6 +92,14 @@ Route::group([
             Route::get('prodi/detail', [ ProdiController::class, 'show' ])->name('prodi.show');
 
         });
+
+
+    Route::get('user-role/datatable', [ UserRoleController::class, 'dataTable' ])->name('user-role.datatable');
+    Route::post('user-role/update', [ UserRoleController::class, 'update' ])->name('user-role.update');
+    Route::post('user-role/delete', [ UserRoleController::class, 'destroy' ])->name('user-role.destroy');
+    Route::resource('user-role', UserRoleController::class)->except([ 'show', 'edit', 'update', 'destroy' ]);
+
+    Route::post('admin/reset-password', [ ResetPasswordAdminController::class, 'store' ])->name('admin.reset-password');
 
 
     Route::name('indonesia.')

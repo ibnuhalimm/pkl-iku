@@ -14,6 +14,14 @@ class User extends Authenticatable
     use HasFactory, Notifiable, SoftDeletes;
 
     /**
+     * Define role_id value
+     *
+     * @var mixed
+     */
+    CONST ROLE_SUPERUSER = 1;
+    CONST ROLE_ADMIN = 2;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -52,5 +60,36 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class)->withDefault(['name' => 'None']);
+    }
+
+    /**
+     * Query to filter admin only role
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function scopeAdmin($query)
+    {
+        return $query->where('role_id', self::ROLE_ADMIN);
+    }
+
+    /**
+     * Query to search from datatable
+     *
+     * @param  \Illuminate\Database\Query\Builder   $query
+     * @param  string|null                          $keyword
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function scopeSearchDatatable($query, $keyword = null)
+    {
+        if (!empty($keyword)) {
+            return $query->where(function($query) use ($keyword) {
+                $query->where('name', 'like', "%$keyword%")
+                    ->orWhere('username', 'like', "%$keyword%")
+                    ->orWhere('email', 'like', "%$keyword%");
+            });
+        }
+
+        return;
     }
 }
