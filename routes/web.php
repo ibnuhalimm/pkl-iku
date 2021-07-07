@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BiodataController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Iku\KerjaLayakController;
 use App\Http\Controllers\Indonesia\{DesaController, KecamatanController, KotaController, ProvinsiController};
 use App\Http\Controllers\Kampus\{FakultasController, ProdiController};
@@ -15,9 +16,7 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 Route::group([
     'middleware' => 'auth'
 ], function() {
-    Route::get('/', function () {
-        return view('app.dashboard');
-    })->name('home');
+    Route::get('/', [ DashboardController::class, 'index' ])->name('home');
 
     Route::name('iku.')
         ->prefix('iku')
