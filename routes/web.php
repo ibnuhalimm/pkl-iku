@@ -4,6 +4,7 @@ use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\Iku\KerjaLayakController;
 use App\Http\Controllers\Indonesia\{DesaController, KecamatanController, KotaController, ProvinsiController};
 use App\Http\Controllers\Kampus\{FakultasController, ProdiController};
+use App\Http\Controllers\Mahasiswa\AlumniController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\Perusahaan\{DataController as DataPerusahaanController, KategoriController};
 use Illuminate\Support\Facades\Route;
@@ -24,10 +25,14 @@ Route::group([
             Route::get('kerja-layak/export-excel', [KerjaLayakController::class, 'exportExcel'])->name('kerja-layak.export-excel');
             Route::post('kerja-layak/update', [KerjaLayakController::class, 'update'])->name('kerja-layak.update');
             Route::post('kerja-layak/delete', [KerjaLayakController::class, 'destroy'])->name('kerja-layak.destroy');
-            Route::post('kerja-layak/{kerja_layak}/edit', [KerjaLayakController::class, 'edit'])->name('kerja-layak.edit');
+            Route::get('kerja-layak/{kerja_layak}/edit', [KerjaLayakController::class, 'edit'])->name('kerja-layak.edit');
             Route::resource('kerja-layak', KerjaLayakController::class)->except([ 'show', 'edit', 'update', 'destroy' ]);
 
         });
+
+
+    Route::get('alumni/select', [AlumniController::class, 'selectTwo'])->name('alumni.select');
+    Route::get('alumni/show', [AlumniController::class, 'show'])->name('alumni.show');
 
 
     Route::get('mahasiswa/datatable', [MahasiswaController::class, 'dataTable'])->name('mahasiswa.datatable');
@@ -51,6 +56,7 @@ Route::group([
         ->group(function() {
 
             Route::get('data/datatable', [DataPerusahaanController::class, 'dataTable'])->name('data.datatable');
+            Route::get('data/select', [DataPerusahaanController::class, 'selectTwo'])->name('data.select');
             Route::post('data/update', [DataPerusahaanController::class, 'update'])->name('data.update');
             Route::post('data/delete', [DataPerusahaanController::class, 'destroy'])->name('data.destroy');
             Route::resource('data', DataPerusahaanController::class)->except([ 'show', 'update', 'destroy' ]);

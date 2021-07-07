@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('title')
-    {{ __('Data Mahasiswa') }}
+    {{ __('Data Pekerjaan Yang Layak') }}
 @endsection
 
 
@@ -17,7 +17,7 @@
     <x-card.card-default>
         <x-card.header>
             <x-card.title>
-                {{ __('Data Mahasiswa') }}
+                {{ __('Data Pekerjaan Yang Layak') }}
             </x-card.title>
         </x-card.header>
         <x-card.body>

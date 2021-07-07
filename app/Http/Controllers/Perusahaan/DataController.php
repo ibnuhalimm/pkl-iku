@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Perusahaan;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Perusahaan\Data\{DatatableRequest, DeleteRequest, StoreRequest, UpdateRequest};
+use App\Http\Requests\Perusahaan\Data\{DatatableRequest, DeleteRequest, SelectTwoRequest, StoreRequest, UpdateRequest};
+use App\Http\Resources\Perusahaan\Data\SelectTwoResource;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -184,5 +185,35 @@ class DataController extends Controller
                 ->skipPaging(true)
                 ->setTotalRecords($companiesCount)
                 ->make(true);
+    }
+
+    /**
+     * Handle select2 ajax
+     *
+     * @param  \App\Http\Requests\Perusahaan\data\SelectTwoRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function selectTwo(SelectTwoRequest $request)
+    {
+        $page = $request->get('page');
+        $search = $request->get('search', '');
+
+        $limit = 20;
+        $offset = ($page - 1) * $limit;
+
+        $companies = Company::searchSelectTwo($search)
+                        ->orderBy('name', 'asc')
+                        ->take($limit)
+                        ->skip($offset)
+                        ->get();
+
+        $companiesCount = Company::searchSelectTwo($search)->count();
+
+        return response()->json([
+            'results' => SelectTwoResource::collection($companies),
+            'pagination' => [
+                'more' => ($page * $limit) < $companiesCount
+            ]
+        ]);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Biodata;
+namespace App\Http\Requests\Perusahaan\Data;
 
 use Illuminate\Foundation\Http\FormRequest;
 

@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Iku;
 use App\Exports\GradJobExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Iku\KerjaLayak\DatatableRequest;
+use App\Http\Requests\Iku\KerjaLayak\StoreRequest;
 use App\Models\GradJob;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Yajra\DataTables\DataTables;
 
 class KerjaLayakController extends Controller
@@ -28,18 +30,53 @@ class KerjaLayakController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            'jobCategories' => GradJob::getAllJobCategory(),
+            'employmentTypes' => GradJob::getAllEmpType(),
+            'contractEmployee' => GradJob::EMP_TYPE_CONTRACT
+        ];
+
+        return view('app.iku.kerja-layak.create', $data);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Iku\KerjaLayak\StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        try {
+            $gradJob = new GradJob();
+            $gradJob->student_id = $request->student_id;
+            $gradJob->date_start = date('Y-m-d', strtotime($request->date_start));
+            $gradJob->job_category = $request->job_category;
+            $gradJob->emp_type = $request->emp_type;
+            $gradJob->company_id = $request->company_id;
+            $gradJob->sallary = $request->sallary;
+
+            $uploadedEmployeeAgreement = $request->file('emp_agreement_image')->store(
+                'kerja-layak/employee-agreement/', 'public'
+            );
+
+            $gradJob->emp_agreement_image = $uploadedEmployeeAgreement;
+
+            $empContractDuration = 0;
+            if ($request->emp_contract_duration == GradJob::EMP_TYPE_CONTRACT) {
+                $empContractDuration = $request->emp_contract_duration;
+            }
+
+            $gradJob->emp_contract_duration = $empContractDuration;
+            $gradJob->save();
+
+            return $this->apiResponse(Response::HTTP_CREATED, 'Data berhasil disimpan.');
+
+        } catch (\Throwable $th) {
+            report($th);
+
+            return $this->apiResponse(Response::HTTP_INTERNAL_SERVER_ERROR, 'Terjadi kesalahan. ' . $th->getMessage());
+        }
     }
 
     /**

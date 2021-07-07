@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Biodata;
+namespace App\Http\Requests\Mahasiswa\Alumni;
 
 use Illuminate\Foundation\Http\FormRequest;
 

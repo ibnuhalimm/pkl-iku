@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -161,6 +162,57 @@ class Student extends Model
     {
         if ($status > 0) {
             return $query->where('status', $status);
+        }
+
+        return;
+    }
+
+    /**
+     * Query to get only alumni
+     *
+     * @param  \Illuminate\Database\Query\Builder   $query
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function scopeAlumni($query)
+    {
+        return $query->where('status', self::STATUS_LULUS);
+    }
+
+    /**
+     * Join query for select2
+     *
+     * @param  \Illuminate\Database\Query\Builder   $query
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function scopeJoinedSelectTwo($query)
+    {
+        $studentsTable = $this->getTable();
+        $biodatasTable = (new Biodata())->getTable();
+
+        return $query->selectRaw("{$studentsTable}.*,
+                            {$biodatasTable}.name AS student_name")
+                ->join("{$biodatasTable}", "{$biodatasTable}.id", '=', "{$studentsTable}.biodata_id");
+    }
+
+    /**
+     * Query to search from select2
+     *
+     * @param  \Illuminate\Database\Query\Builder   $query
+     * @param  string|null                          $keyword
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function scopeSearchSelectTwo($query, $keyword = null)
+    {
+        if (!empty($keyword)) {
+            $studentsTable = $this->getTable();
+            $biodatasTable = (new Biodata())->getTable();
+
+            return $query->where(function($query) use (
+                $keyword, $studentsTable, $biodatasTable
+                ) {
+                $query->where("{$studentsTable}.id_number", 'like', "%$keyword%")
+                    ->orWhere("{$biodatasTable}.name", 'like', "%$keyword%");
+            });
         }
 
         return;
